@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Events\Message;
+use Illuminate\Http\Response;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,6 +15,19 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+
 Route::get('/', function () {
-    return view('welcome');
+    return view('index');
 });
+
+Route::post('/send-message', function (Request$request) {
+    event
+        (new Message(
+            $request->input('username'), 
+            $request->input('message')
+        )
+    );
+
+    return["success"=> true];
+});
+
