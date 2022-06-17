@@ -1840,6 +1840,9 @@ module.exports = {
   \*****************************/
 /***/ ((__unused_webpack_module, __unused_webpack_exports, __webpack_require__) => {
 
+var _require = __webpack_require__(/*! axios */ "./node_modules/axios/index.js"),
+    axios = _require["default"];
+
 __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
 
 var messages_el = document.getElementById("messages");
@@ -1855,7 +1858,7 @@ message_form.addEventListener('submit', function (e) {
     has_errors = true;
   }
 
-  if (messagew_input.value == '') {
+  if (message_input.value == '') {
     alert("Please Enter Your message");
     has_errors = true;
   }
@@ -1870,12 +1873,15 @@ message_form.addEventListener('submit', function (e) {
     data: {
       username: username_input.value,
       message: message_input.value
-    }
+    },
+    trasformResponse: [function (data) {
+      return data;
+    }]
   };
-  axious(options);
+  axios(options);
 });
 window.Echo.channel('chat').listen('.message', function (e) {
-  messages_el.innerHTML += '<div class="message"><strong>' + e.username + ':</strong>' + e.message + '</div>';
+  messages_el.innerHTML += '<div class="message"><strong>' + e.username + ':</strong> ' + e.message + '</div>';
 });
 
 /***/ }),

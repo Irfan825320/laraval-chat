@@ -1,3 +1,5 @@
+const { default: axios } = require('axios');
+
 require('./bootstrap');
 
 const messages_el = document.getElementById("messages");
@@ -15,11 +17,10 @@ message_form.addEventListener('submit',function(e){
         has_errors = true;
     }
 
-    if (messagew_input.value==''){
+    if (message_input.value==''){
         alert("Please Enter Your message");
         has_errors = true;
     }
-
 
     if(has_errors) {
         return;
@@ -31,14 +32,16 @@ message_form.addEventListener('submit',function(e){
         data:{
             username: username_input.value,
             message: message_input.value
-        }
+        },
+        trasformResponse:[(data)=>{
+            return data;
+        }]
     }
 
-    axious(options);
+    axios(options);
 })
 
 window.Echo.channel('chat')
     .listen('.message', (e) => {
-        messages_el.innerHTML+='<div class="message"><strong>'+ e.username + ':</strong>' +e.message 
-        + '</div>';
+        messages_el.innerHTML+='<div class="message"><strong>'+ e.username + ':</strong> ' + e.message + '</div>';
     });
